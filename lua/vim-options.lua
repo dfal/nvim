@@ -4,6 +4,7 @@ vim.cmd("set tabstop=2")
 vim.cmd("set softtabstop=2")
 vim.cmd("set shiftwidth=2")
 vim.cmd("set number")
+vim.cmd("set list listchars=tab:»·,trail:·,nbsp:·")
 vim.cmd([[
   augroup numbertoggle
     autocmd!
@@ -11,4 +12,3 @@ vim.cmd([[
     autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber
   augroup END
 ]])
-

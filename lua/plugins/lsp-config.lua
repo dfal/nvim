@@ -31,13 +31,13 @@ return {
       vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
       vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist)
 
-      local opts = { noremap = true, silent = true }
       local on_attach = function(client, buffer)
-        opts.buffer = buffer
+        local opts = { noremap = true, silent = true, buffer = buffer }
         client.server_capabilities.document_formatting = true
         vim.keymap.set("n", "<leader>ff", vim.lsp.buf.format, opts)
         vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
         vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+        vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
         vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
         vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, opts)
@@ -88,9 +88,7 @@ return {
         }),
         sources = cmp.config.sources({
           { name = "nvim_lsp" },
-        }, {
           { name = "path" },
-        }, {
           { name = "snippy" },
         }, {
           { name = "buffer" },

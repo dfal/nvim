@@ -8,6 +8,7 @@ return {
           extra_args = { "--indent-type", "Spaces", "--indent-width", "2" },
         }),
         null_ls.builtins.formatting.prettier,
+        null_ls.builtins.diagnostics.eslint_d,
       },
 
       vim.keymap.set("n", "<leader>ff", vim.lsp.buf.format, {}),

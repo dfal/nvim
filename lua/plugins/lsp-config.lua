@@ -11,6 +11,10 @@ return {
           "lua_ls",
           "tsserver",
           "gopls",
+          "gufumpt",
+          "golines",
+          "goimports-reviser",
+          "eslint",
         },
       })
     end,
@@ -34,10 +38,9 @@ return {
       local on_attach = function(client, buffer)
         local opts = { noremap = true, silent = true, buffer = buffer }
         client.server_capabilities.document_formatting = true
-        vim.keymap.set("n", "<leader>ff", vim.lsp.buf.format, opts)
         vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
         vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-        vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
         vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
         vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, opts)
@@ -68,13 +71,28 @@ return {
           return true
         end,
       })
+
       lspconfig.tsserver.setup({
         capabilities = capabilities,
         on_attach = on_attach,
       })
+
+      local util = require("lspconfig/util")
       lspconfig.gopls.setup({
         capabilities = capabilities,
         on_attach = on_attach,
+        cmd = { "gopls" },
+        filetypes = { "go", "gomod", "gowork", "gotmpl" },
+        root_dir = util.root_pattern("go.work", "go.mod", ".git"),
+        settings = {
+          gopls = {
+            completeUnimported = true,
+            usePlaceholders = true,
+            analyses = {
+              unusedparams = true,
+            },
+          },
+        },
       })
 
       local cmp = require("cmp")

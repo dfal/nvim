@@ -11,9 +11,6 @@ return {
           "lua_ls",
           "tsserver",
           "gopls",
-          "gufumpt",
-          "golines",
-          "goimports-reviser",
           "eslint",
         },
       })
@@ -23,11 +20,7 @@ return {
     "neovim/nvim-lspconfig",
     dependencies = {
       "williamboman/mason.nvim",
-      "hrsh7th/nvim-cmp",
-      "hrsh7th/cmp-nvim-lsp",
       { "antosha417/nvim-lsp-file-operations", config = true },
-      "dcampos/nvim-snippy",
-      "dcampos/cmp-snippy",
     },
     config = function()
       vim.keymap.set("n", "<space>e", vim.diagnostic.open_float)
@@ -71,7 +64,6 @@ return {
           return true
         end,
       })
-
       lspconfig.tsserver.setup({
         capabilities = capabilities,
         on_attach = on_attach,
@@ -92,29 +84,6 @@ return {
               unusedparams = true,
             },
           },
-        },
-      })
-
-      local cmp = require("cmp")
-      cmp.setup({
-        mapping = cmp.mapping.preset.insert({
-          ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-          ["<C-f>"] = cmp.mapping.scroll_docs(4),
-          ["<C-Space>"] = cmp.mapping.complete(),
-          ["<C-e>"] = cmp.mapping.abort(),
-          ["<CR>"] = cmp.mapping.confirm({ select = true }),
-        }),
-        sources = cmp.config.sources({
-          { name = "nvim_lsp" },
-          { name = "path" },
-          { name = "snippy" },
-        }, {
-          { name = "buffer" },
-        }),
-        snippet = {
-          expand = function(args)
-            require("snippy").expand_snippet(args.body)
-          end,
         },
       })
     end,

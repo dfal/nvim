@@ -22,6 +22,10 @@ return {
         local opts = { noremap = true, silent = true, buffer = buffer }
         vim.keymap.set("n", "<leader>ff", vim.lsp.buf.format, opts)
 
+        if vim.bo.filetype == "yaml" then
+          return
+        end
+
         local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
         vim.api.nvim_clear_autocmds({
           group = augroup,

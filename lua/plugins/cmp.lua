@@ -9,6 +9,7 @@ return {
     "L3MON4D3/LuaSnip",
     "saadparwaiz1/cmp_luasnip",
     "windwp/nvim-autopairs",
+    "onsails/lspkind.nvim",
   },
   event = "VeryLazy",
   config = function()
@@ -44,6 +45,15 @@ return {
         expand = function(args)
           luasnip.lsp_expand(args.body)
         end,
+      },
+      formatting = {
+        format = require("lspkind").cmp_format({
+          mode = "symbol",
+          maxwidth = function()
+            return math.floor(0.45 * vim.o.columns)
+          end,
+          ellipsis_char = "...",
+        }),
       },
     })
 
